@@ -26,10 +26,17 @@ function App() {
    <div>
     <h1>Agenda Telefonica</h1>
     <div className='container-input'>
-    <input onChange={actualizarNombre} type="text" placeholder="Nombre y Apellido"/>
-    <input onChange={actualizarNro} type="number" placeholder="Telefono"/>
-   </div>
-   <button onClick={agregarContacto} className='Agregar'>Agregar</button>
+        <input onChange={actualizarNombre} type="text" placeholder="Nombre y Apellido"/>
+        <input onChange={actualizarNro} type="number" placeholder="Telefono"/>
+      </div>
+    <button onClick={agregarContacto} className='Agregar'>Agregar</button>
+    <ul>
+        {contactos.map((contacto, index) => (
+          <li key={index}>
+            {contacto.nombre} - {contacto.nro}
+          </li>
+        ))}
+      </ul>
    </div>
   )
 };
