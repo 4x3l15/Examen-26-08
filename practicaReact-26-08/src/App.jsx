@@ -1,10 +1,22 @@
-import { useState } from 'react';
+import { useState,useEffect } from 'react';
+import axios from 'axios';
 import './App.css';
 
 function App() {
   const [nombre, setNombre] = useState('');
   const [nro, setNro] = useState(0);
-  const [contactos, setContactos] = useState([])
+  const [contactos, setContactos] = useState([]);
+
+  useEffect(() => {
+    // Cargar los contactos al cargar la página
+    axios.get('http://localhost:3000/contactos')
+      .then(response => {
+        setContactos(response.data);
+      })
+      .catch(error => {
+        console.error("Hubo un error al cargar los contactos:", error);
+      });
+  }, []);
 
   const actualizarNombre = (even) => {
     setNombre(even.target.value);
@@ -30,13 +42,22 @@ function App() {
         <input onChange={actualizarNro} type="number" placeholder="Telefono"/>
       </div>
     <button onClick={agregarContacto} className='Agregar'>Agregar</button>
-    <ul>
-        {contactos.map((contacto, index) => (
-          <li key={index}>
-            {contacto.nombre} - {contacto.nro}
-          </li>
-        ))}
-      </ul>
+    <table className='table' border="1" cellPadding="5" cellSpacing="0">
+        <thead>
+          <tr className='table-container'>
+            <th className='table-Nombre'>Nombre</th>
+            <th className='table-Nro'>telefono</th>
+          </tr>
+        </thead>
+        <tbody>
+          {contactos.map((contacto, index) => (
+            <tr key={index}>
+              <td>{contacto.nombre}</td>
+              <td>{contacto.nro}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
    </div>
   )
 };
